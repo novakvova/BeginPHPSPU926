@@ -34,7 +34,6 @@
 
         // insert data
         if ($valid) {
-            var_dump($_POST);
             $pdo = Database::connect();
             $sql = "INSERT INTO customers (name, email, mobile) values(?, ?, ?)";
             $stmt = new mysqli_stmt($pdo, $sql);       
