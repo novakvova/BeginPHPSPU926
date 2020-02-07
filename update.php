@@ -1,6 +1,5 @@
 <?php
     require 'database.php';
-    var_dump($_POST);
     $id = null;
     if ( !empty($_GET['id'])) {
         $id = $_REQUEST['id'];
