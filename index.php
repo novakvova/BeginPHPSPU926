@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <title>List customers</title>
 </head>
  
 <body>
@@ -25,7 +26,12 @@
               $stmt->close();
 
               // Pagination.
-              $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+              if ($_GET['page'] != null && is_numeric($_GET['page'])) {
+                $page = htmlspecialchars($_GET['page']);
+              }
+              else{
+                $page = 1;
+              }
               $num_results_on_page = 5;
               $calc_page = ($page - 1) * $num_results_on_page;
             ?>
@@ -40,6 +46,7 @@
                       <thead>
                         <tr>
                           <th>Name</th>
+                          <th>Last name</th>
                           <th>Email Address</th>
                           <th>Mobile Number</th>
                           <th>Action</th>
@@ -48,7 +55,7 @@
                       <tbody>
                       <?php
                        $pdo = Database::connect();
-                       $sql = 'SELECT id, name, email, mobile FROM customers ORDER BY id ASC LIMIT ?,?';
+                       $sql = 'SELECT id, name, last_name, email, mobile FROM customers ORDER BY id ASC LIMIT ?,?';
                        $stmt = new mysqli_stmt($pdo, $sql);       
                        $stmt->bind_param('ii', $calc_page, $num_results_on_page);
                        $stmt->execute();
@@ -56,6 +63,7 @@
                        foreach ($data as $row) {
                                 echo '<tr>';
                                 echo '<td>'. $row['name'] . '</td>';
+                                echo '<td>'. $row['last_name'] . '</td>';
                                 echo '<td>'. $row['email'] . '</td>';
                                 echo '<td>'. $row['mobile'] . '</td>';
                                 echo '<td width=250>';

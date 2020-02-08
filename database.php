@@ -1,8 +1,8 @@
 <?php
 class Database
 {
-    private static $dbName = 'crud_tutorial' ;
-    private static $dbHost = '192.168.137.2' ;
+    private static $dbName = 'crud_tutorial';
+    private static $dbHost = 'localhost';
     private static $dbUsername = 'root';
     private static $dbUserPassword = '12345678';
      
@@ -34,7 +34,7 @@ class Database
      
     public static function disconnect()
     {
-      //self::$cont->close();
+      self::$cont->close();
       self::$cont = null;
     }
 }
