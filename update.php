@@ -2,7 +2,7 @@
     require 'database.php';
     $id = null;
     if ( !empty($_GET['id'])) {
-        $id = $_REQUEST['id'];
+        $id = htmlspecialchars($_REQUEST['id']);
     }
      
     if ( null==$id ) {
@@ -12,25 +12,32 @@
     if ( !empty($_POST)) {
         // keep track validation errors
         $nameError = null;
+        $last_nameError = null;
         $emailError = null;
         $mobileError = null;
          
         // keep track post values
         $name = $_POST['name'];
+        $last_name = $_POST['last_name'];
         $email = $_POST['email'];
         $mobile = $_POST['mobile'];
          
         // validate input
         $valid = true;
         if (empty($name)) {
-            $nameError = 'Please enter Name';
+            $nameError = 'Please enter Last name';
             $valid = false;
         }
-         
+
+        if (empty($last_name)) {
+            $last_nameError = 'Please enter Name';
+            $valid = false;
+        }
+
         if (empty($email)) {
             $emailError = 'Please enter Email Address';
             $valid = false;
-        } else if ( !filter_var($email,FILTER_VALIDATE_EMAIL) ) {
+        } else if ( !filter_var($email, FILTER_VALIDATE_EMAIL) ) {
             $emailError = 'Please enter a valid Email Address';
             $valid = false;
         }
@@ -43,10 +50,10 @@
         // update data
         if ($valid) {
             $pdo = Database::connect();
-            $sql = "UPDATE customers  set name = ?, email = ?, mobile = ? WHERE id = ?";
+            $sql = "UPDATE customers  set name = ?, last_name = ?, email = ?, mobile = ? WHERE id = ?";
             
             $stmt = new mysqli_stmt($pdo, $sql);       
-            $stmt->bind_param('sssi', $name, $email, $mobile, $id);
+            $stmt->bind_param('ssssi', $name, $last_name, $email, $mobile, $id);
             $stmt->execute();
             $stmt->close();
             
@@ -64,6 +71,7 @@
         $stmt->close();
         
         $name = $data['name'];
+        $last_name = $data['last_name'];
         $email = $data['email'];
         $mobile = $data['mobile'];
         Database::disconnect();
@@ -94,6 +102,13 @@
                             <input type="text" class="form-control" name="name" id="inputName" value=<?php echo !empty($name)?$name:'';?>>
                             <?php if (!empty($nameError)): ?>
                                 <span class="help-inline"><?php echo $nameError;?></span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputName">Last name:</label>
+                            <input type="text" class="form-control" name="last_name" id="inputName" value=<?php echo !empty($last_name)?$last_name:'';?> required>
+                            <?php if (!empty($last_nameError)): ?>
+                                <span class="help-inline"><?php echo $last_nameError;?></span>
                             <?php endif; ?>
                         </div>
                         <div class="form-group col-md-6">

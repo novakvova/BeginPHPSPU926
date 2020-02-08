@@ -34,7 +34,7 @@ class Database
      
     public static function disconnect()
     {
-      //self::$cont->close();
+      self::$cont->close();
       self::$cont = null;
     }
 }
