@@ -1,42 +1,34 @@
 <h2>Список тварин</h2>
+
+<a href="/add.php" class="btn btn-danger">Додати</a>
+
 <?php
 $myPDO = new PDO('mysql:host=localhost;dbname=db_spu926', 'root', '');
 
 $result = $myPDO->query("SELECT `id`,`name`,`image` FROM `animals`");
-
-foreach ($result as $row) {
-    print $row['id'] . "\t";
-    print $row['name'] . "\t";
-    print $row['image'] . "\n";
-}
 
 ?>
 <table class="table">
     <thead>
     <tr>
         <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">Name</th>
+        <th scope="col">Image</th>
     </tr>
     </thead>
     <tbody>
+    <?php
+    foreach ($result as $row) {
+    echo "
     <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+        <th scope='row'>{$row['id']}</th>
+        <td>{$row['name']}</td>
+        <td><img src='/img/{$row['image']}' width='100'></td>
     </tr>
-    <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-    </tr>
-    <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-    </tr>
+    ";
+    }
+
+    ?>
+
     </tbody>
 </table>

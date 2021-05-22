@@ -8,16 +8,7 @@
     <title>Головна сторінка</title>
 </head>
 <body>
-<h1>Hello PHP</h1>
+<div class="container">
 
-<?php
-$a=23;
-$b="23";
-//$c=45;
-echo "a = ". $a."<br>";
-if($a==$b) //===
-{
-    echo "a == b";
-}
-?>
+
 
