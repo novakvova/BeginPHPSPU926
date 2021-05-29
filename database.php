@@ -1,9 +1,9 @@
 <?php
 class Database
 {
-    private static $dbName = '' ;
-    private static $dbHost = '' ;
-    private static $dbUsername = '';
+    private static $dbName = 'php-crud.local.com' ;
+    private static $dbHost = 'localhost' ;
+    private static $dbUsername = 'root';
     private static $dbUserPassword = '';
      
     private static $cont  = null;

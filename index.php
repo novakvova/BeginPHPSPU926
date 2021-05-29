@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <title>List customers</title>
-</head>
- 
-<body>
+<?php require_once "_header.php"; ?>
+
+
+
     <div class="container">
       <div class="alert alert-success" role="alert">
             <div class="row">
@@ -26,7 +20,7 @@
               $stmt->close();
 
               // Pagination.
-              if ($_GET['page'] != null && is_numeric($_GET['page'])) {
+              if (isset($_GET['page']) && is_numeric($_GET['page'])) {
                 $page = htmlspecialchars($_GET['page']);
               }
               else{
