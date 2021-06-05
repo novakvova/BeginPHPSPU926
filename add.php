@@ -72,6 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             });
 
         });
+
+        $("#btnCropped").on("click", function() {
+            var dataCropper = cropper.getCroppedCanvas().toDataURL();
+            $("#imgSelect").attr("src", dataCropper);
+            $("#croppedModal").modal("hide");
+        });
     });
 
 </script>
