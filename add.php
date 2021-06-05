@@ -1,19 +1,48 @@
 <?php
+
+function base64_to_jpeg($base64_string, $output_file) {
+    // open the output file for writing
+    $ifp = fopen( $output_file, 'wb' );
+
+    // split the string on commas
+    // $data[ 0 ] == "data:image/png;base64"
+    // $data[ 1 ] == <actual base64 string>
+    $data = explode( ',', $base64_string );
+
+    // we could add validation here with ensuring count( $data ) > 1
+    fwrite( $ifp, base64_decode( $data[1] ) );
+
+    // clean up the file resource
+    fclose( $ifp );
+
+    return $output_file;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "<h3>Зберігаємо в БД</h3>";
 
     $name = $_POST['name'];
     $image = $_POST['image'];
-    $myPDO = new PDO('mysql:host=localhost;dbname=db_spu926', 'root', '');
-    $sql = "INSERT INTO `animals` (`name`, `image`) VALUES (?, ?);";
-    $myPDO->prepare($sql)->execute([$name, $image]);
+    //$myPDO = new PDO('mysql:host=localhost;dbname=db_spu926', 'root', '');
+    //$sql = "INSERT INTO `animals` (`name`, `image`) VALUES (?, ?);";
+    //$myPDO->prepare($sql)->execute([$name, $image]);
     //echo $name.'    '.$image.'<br/>';
-    header('Location: /');
-    exit;
+    //header('Location: /');
+    //exit;
+    base64_to_jpeg($image, "img/slavik.png");
+    echo "<h2>$image</h2>";
 }
 ?>
 
 <?php include 'head.php'; ?>
+<style>
+    .preview {
+        overflow: hidden;
+        width: 200px !important;
+        height: 200px !important;
+        border-radius: 50%;
+    }
+</style>
 
 <h1>Додати тварину</h1>
 
@@ -28,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="col-md-12">
         <label for="image" class="form-label">Фото</label>
         <img src="/img/no-image.png" width="250" alt="Обране фото" id="imgSelect" style="cursor: pointer;">
-        <!--        <input type="text" class="form-control" id="image" name="image">-->
+        <input type="hidden" id="image" name="image">
     </div>
 
     <div class="col-12">
@@ -48,7 +77,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         const image = document.getElementById('image-modal');
         const cropper = new Cropper(image, {
-            aspectRatio: 1 / 1
+            aspectRatio: 1 / 1,
+            preview: ".preview"
         });
 
         let $uploader;
@@ -76,6 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $("#btnCropped").on("click", function() {
             var dataCropper = cropper.getCroppedCanvas().toDataURL();
             $("#imgSelect").attr("src", dataCropper);
+            $("#image").attr("value", dataCropper);
             $("#croppedModal").modal("hide");
         });
     });

@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal" id="croppedModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="croppedModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,7 +12,7 @@
                         <img src="/img/bear.jpg" id="image-modal" width="100%" />
                     </div>
                     <div class="col-md-4">
-
+                        <div class="preview ml-4"></div>
                     </div>
                 </div>
 
